@@ -4,6 +4,7 @@ import Header from "./Components/Header/Header";
 import Login from "./Components/Login/Login";
 import { Route } from "react-router-dom";
 import { Switch } from "react-router-dom";
+import Update from "./Components/Updateprofile/UpdateProfile";
 function App() {
   return (
     <div className="App">
@@ -17,6 +18,9 @@ function App() {
           </Route>
           <Route path="/DashBoard">
             <DashBoard />
+          </Route>
+          <Route path="/update-profile">
+            <Update />
           </Route>
         </Switch>
       </main>

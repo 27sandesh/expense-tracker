@@ -1,11 +1,13 @@
 import React from "react";
 import { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap CSS
-import { useRef } from "react";
+import { useRef, useContext } from "react";
 import { useHistory } from "react-router-dom";
+import DataContext from "../Store/data-context";
 
 const Login = () => {
   const history = useHistory();
+  const Authctx = useContext(DataContext);
   const emailInputRef = useRef();
   const PasswordInputRef = useRef();
   const [isLoggedIn, setisLoggedIn] = useState(false);
@@ -38,6 +40,9 @@ const Login = () => {
     }).then((res) => {
       if (res.ok) {
         res.json().then((data) => {
+          localStorage.setItem("login", JSON.stringify(data));
+          Authctx.Login(data.idToken);
+          console.log(data.idToken);
           window.location.href = "/DashBoard";
           console.log(data);
         });
