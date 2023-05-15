@@ -1,11 +1,41 @@
 import { Button, Form } from "react-bootstrap";
-import { useRef, useContext } from "react";
+import { useRef, useContext, useEffect } from "react";
 import DataContext from "../Store/data-context";
 const Update = () => {
   const Authctx = useContext(DataContext);
   const NameInputRef = useRef();
   const PhotoUrlRef = useRef();
   const token = Authctx.token;
+  useEffect(() => {
+    fetch(
+      "https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyB0dJAXTRrEtEpkORTaa2uVCWs1LHzJGgY",
+      {
+        method: "POST",
+        body: JSON.stringify({
+          idToken: token,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    )
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          throw new Error("failed to fetch");
+        }
+      })
+      .then((data) => {
+        const user = data.users[0];
+        NameInputRef.current.value = user.displayName;
+        PhotoUrlRef.current.value = user.PhotoUrl;
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  }, [token]);
+
   function submitHandler(e) {
     const Enterdname = NameInputRef.current.value;
     const EnterdUrl = PhotoUrlRef.current.value;
