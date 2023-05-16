@@ -43,7 +43,9 @@ const Login = () => {
           localStorage.setItem("login", JSON.stringify(data));
           Authctx.Login(data.idToken);
           console.log(data.idToken);
-          window.location.href = "/DashBoard";
+          window.history.pushState(null, null, "/DashBoard");
+
+          //  history.repalce("/DashBoard");
           console.log(data);
         });
       } else {
