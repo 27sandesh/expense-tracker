@@ -14,11 +14,11 @@ const Login = () => {
   function SwithAuthModeHandler() {
     setisLoggedIn((prevState) => !prevState);
   }
-
+  const EnterdEmail = emailInputRef.current.value;
+  const EnterdPassword = PasswordInputRef.current.value;
   function submitHandler(event) {
     event.preventDefault();
-    const EnterdEmail = emailInputRef.current.value;
-    const EnterdPassword = PasswordInputRef.current.value;
+
     let url;
     if (isLoggedIn) {
       url =
@@ -55,6 +55,31 @@ const Login = () => {
       }
     });
   }
+  function forgetpasswordhandler() {
+    fetch(
+      "https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyB0dJAXTRrEtEpkORTaa2uVCWs1LHzJGgY",
+      {
+        method: "POST",
+        body: JSON.stringify({
+          requestType: "PASSWORD_RESET",
+          email: EnterdEmail,
+        }),
+        headers: {
+          "content-type": "application/json",
+        },
+      }
+    )
+      .then((res) => {
+        if (res.ok) {
+          console.log("code sent to email");
+        } else {
+          throw new Error("Error sending verification email.");
+        }
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  }
 
   return (
     <section className="container">
@@ -84,6 +109,11 @@ const Login = () => {
               required
               ref={PasswordInputRef}
             />
+          </div>
+          <div>
+            <button onClick={forgetpasswordhandler}>
+              forget password? click here
+            </button>{" "}
           </div>
         </div>
         <div className="row">
