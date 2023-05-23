@@ -36,3 +36,10 @@
     transform: rotate(360deg);
   }
 }
+.container.light {
+  background-color: #ffffff; /* Light theme background color */
+}
+
+.container.dark {
+  background-color: #222222; /* Dark theme background color */
+}
